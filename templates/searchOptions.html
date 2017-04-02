@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Endangered Species Database</title>
+    <style type="text/css">
+   body { background: green !important; }
+   .options { color: #000000;}
+   .searchClass {margin: 1%;}
+   .searchClass .btn-default {background-color: #9C3; border-color: #033;}
+</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<script type="text/javascript" src="searchJS.js"></script>!-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Endangered Species Database</h1>
+  <p>Interested about endangered species and how you can help? Learn more here!</p>
+</div>
+<div class = "searchClass"><br>
+<h3 style = "color:#FFF">Search the database below:</h3>
+
+<!--ease of use navigation links-->
+<!--
+<div class = "form-group" style = "color:#FFF">
+<a href = "#commonName" id = "commonNameJump"><input name="Jump to common name search" type="button" value="Jump to common name search" class="btn btn-default"></a>
+<a href = "#speciesName"><input name="Jump to species name search" type="button" value="Jump to species name search" class="btn btn-default"></a>
+<a href = "#habitats"><input name="Jump to habitat search" type="button" value="Jump to habitat search" class="btn btn-default"></a>
+</div>
+
+<br/>
+<br/>!-->
+<!--ease of use navigation links-->
+
+<!--search by common name-->
+<form>
+<div class = "form-group" style = "color:#FFF" id = "commonNameForm">
+<label for="commonName">
+Find an animal using its common name: </label>
+<input id = "commonName" class = "form-control">
+</div>
+
+<div class = "checkbox" style = "color:#FFF">
+<label class = "checkbox_inline"><input type = "checkbox" id = "speciesInfo">Get species info</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "relatedReading">Get related reading</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "conservationInfo">Get conservation info</label>
+<label class = "checkbox_inline"><input type = "checkbox">Get habitat information</label>
+<label class = "checkbox_inline"><input type = "checkbox">Include habitat threats</label>
+</div>
+
+<input name="Search By Common Name &gt;" type="submit" value="Search by common name &gt;" class="btn btn-default">
+</form>
+<br/>
+<br/>
+<!--end search by common name-->
+
+<!--search by species name-->
+<form>
+<div class = "form-group"style = "color:#FFF">
+<label for="speciesName">
+Find an animal using its species name: </label>
+<input id = "speciesName" class = "form-control">
+
+<div class = "checkbox" style = "color:#FFF">
+<label class = "checkbox_inline"><input type = "checkbox" id = "speciesInfo">Get species info</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "relatedReading">Get related reading</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "conservationInfo">Get conservation info</label>
+<label class = "checkbox_inline"><input type = "checkbox">Get habitat information</label>
+<label class = "checkbox_inline"><input type = "checkbox">Include habitat threats</label>
+</div>
+
+</div>
+<input name="Search By Species Name &gt;" type="submit" value="Search by species name &gt;" class="btn btn-default">
+
+</form>
+<br/>
+<br/>
+<!--end search by species name-->
+
+<!--search by habitat name-->
+<form>
+<div class = "form-group" style = "color:#FFF">
+<label for="habitats">
+Find endangered species by habitat: </label>
+<select id = "habitats" class = "form-control">
+    <option value="Savanah">Savanah
+    </option>
+    <option value="Tropical Rainforest">
+    Tropical Rainforest
+    </option>
+    <option value="Forest">
+    Forest
+    </option>
+    <option value="Grasslands">Grasslands
+    </option>
+        <option value="Ocean">Ocean
+    </option>
+            <option value="Tundra">Tundra
+    </option>
+            <option value="Everglades">Everglades
+    </option>
+</select>
+<div class = "checkbox" style = "color:#FFF">
+<label class = "checkbox_inline"><input type = "checkbox" id = "invasiveInfo">Also return invasive species in that habitat</label>
+</div>
+</div>
+
+<input name="Search By Species Name &gt;" type="submit" value="Find endangered species in this habitat &gt;" class="btn btn-default">
+
+</form>
+<br/>
+<br/>
+<!--end search by habitat name-->
+
+<!--get threats-->
+<form>
+<div class = "form-group" style = "color:#FFF">
+<label for="threatAssociations">
+Find threats associated with a(n): </label>
+<select id = "threatAssociations" class = "form-control">
+    <option value="habitat" selected>habitat
+    </option>
+    <option value="species">species
+    </option>
+    <option value="invasive species">
+    invasive species
+    </option>
+    <option value="conservation group">
+    conservation group
+    </option>
+</select>
+</div>
+<div class = "form-group" style = "color:#FFF" id = "criterionDiv">
+<label for="criterion">
+Enter the habitat, species, invasive species, or conservation group you are looking for: </label>
+<input id = "criterion" class = "form-control">
+</div>
+
+<input name="Search By Species Name &gt;" type="submit" value="Find threats associated with this search term &gt;" class="btn btn-default">
+
+</form>
+<br/>
+<br/>
+<!--end get threats-->
+</div>
+
+</body>
+</html>
