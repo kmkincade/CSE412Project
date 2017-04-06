@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flaskext.mysql import MySQL
 
 mysql = MySQL()
@@ -14,7 +14,12 @@ mysql.init_app(index)
 
 @index.route('/')
 def home_page():
-   return render_template('searchOptions.html')
+    return render_template('searchOptions.html')
+
+@index.route('/result')
+def searching():
+    return render_template ('results.html')
+
 
 if __name__ == '__main__':
    index.run(debug = True, port = 8080)
