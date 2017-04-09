@@ -21,5 +21,14 @@ def searching():
     return render_template ('results.html')
 
 
+#testing html to python interaction. Feel free to remove if this is causing issues.
+@app.route('/habitatAdded', methods = ['POST'])
+def habitatAdded():
+    habitatBiome = request.form['habitatBiome']
+    habitatCountry = request.form['habitatCountry']
+    print("The habitat with biome " + habitatBiome + " and country " + habitatCountry + "has been sent to the database.")
+    return redirect('/')
+#end testing
+
 if __name__ == '__main__':
    index.run(debug = True, port = 8080)
