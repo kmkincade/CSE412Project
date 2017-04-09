@@ -25,12 +25,13 @@ def inserting():
     return render_template ('insertData.html')
 
 #testing html to python interaction. Feel free to remove if this is causing issues.
+
 @index.route('/habitatAdded', methods = ['POST'])
 def habitatAdded():
     habitatBiome = request.form['habitatBiome']
     habitatCountry = request.form['habitatCountry']
-    print("The habitat with biome " + habitatBiome + " and country " + habitatCountry + "has been sent to the database.")
-    return redirect('/')
+    resultStuff = 'The habitat with biome ' + habitatBiome + ' and country ' + habitatCountry + ' has been sent to the database.'
+    return render_template('resultsTest.html', result_stuff=resultStuff)
 #end testing
 
 
