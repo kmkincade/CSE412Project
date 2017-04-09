@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Endangered Species Database: Insert New Entries</title>
+    <style type="text/css">
+   body { background: green !important; }
+   .options { color: #000000;}
+   .searchClass {margin: 1%;}
+   .searchClass .btn-default {background-color: #9C3; border-color: #033;}
+</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<script type="text/javascript" src="searchJS.js"></script>!-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Endangered Species Database</h1>
+  <p>Interested about endangered species and how you can help? Learn more here!</p>
+</div>
+<div class = "searchClass"><br>
+<h3 style = "color:#FFF">Insert new entries into the database:</h3>
+
+<!--ease of use navigation links-->
+<!--
+<div class = "form-group" style = "color:#FFF">
+<a href = "#commonName" id = "commonNameJump"><input name="Jump to common name search" type="button" value="Jump to common name search" class="btn btn-default"></a>
+<a href = "#speciesName"><input name="Jump to species name search" type="button" value="Jump to species name search" class="btn btn-default"></a>
+<a href = "#habitats"><input name="Jump to habitat search" type="button" value="Jump to habitat search" class="btn btn-default"></a>
+</div>
+
+<br/>
+<br/>!-->
+<!--ease of use navigation links-->
+
+<!--insert new species-->
+<form name='insertSpecies' method='POST'>
+<h4 style = "color:#FFFFFF">Insert a new endangered species:</h4>
+<div class = "form-group" style = "color:#FFF">
+<label for="speciesName">
+What is the species' common name? </label>
+<input id = "speciesName" class = "form-control">
+</div>
+
+<div class = "form-group" style = "color:#FFF">
+<label for="speciesTaxon">What is the species' taxon?</label>
+<input id = "speciesTaxon" class = "form-control">
+</div>
+
+<div class = "form-group" style = "color:#FFF">
+<label for="speciesStatus">What is the species' endangered status?</label>
+<select id = "speciesStatus" class = "form-control">
+    <option value="leastConcern">Least Concern
+    </option>
+        <option value="nearThreatened">
+    Near Threatened
+    </option>
+    <option value="vulnerable">
+    Vulnerable
+    </option>
+    <option value="endangered">Endangered
+    </option>
+        <option value="criticallyEndangered">Critically Endangered
+    </option>
+</select>
+</div>
+
+
+<div class = "form-group" style = "color:#FFF">
+<label for="speciesPopulation">What is the species' population number?</label>
+<input id = "speciesPopulation" class = "form-control">
+</div>
+
+<input name="Insert new species &gt;" type="submit" value="Insert new species &gt;" class="btn btn-default">
+
+</form>
+<br/>
+<br/>
+<!--end insert new species-->
+
+<!--insert new habitat-->
+<form name='insertHabitat' action="/habitatAdded" method='POST'>
+<h4 style = "color:#FFFFFF">Insert a new habitat:</h4>
+<div class = "form-group" style = "color:#FFF">
+<label for="speciesName">
+What is the habitat's biome? </label>
+<input id = "habitatBiome" class = "form-control">
+</div>
+
+<div class = "form-group" style = "color:#FFF">
+<label for="habitatCountry">What is the habitat's country?</label>
+<input id = "habitatCountry" class = "form-control">
+</div>
+
+<div class = "form-group" style = "color:#FFF">
+<label for="habitatID">Give the habitat a unique ID:</label>
+<input id = "habitatID" class = "form-control">
+</div>
+
+<input name="Insert new species &gt;" type="submit" value="Insert new habitat &gt;" class="btn btn-default">
+
+</form>
+<br/>
+<br/>
+<!--end insert new habitat-->
+
+</div>
+
+</body>
+</html>
