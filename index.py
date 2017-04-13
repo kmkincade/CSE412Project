@@ -40,7 +40,7 @@ def testing():
 			return str(data)
 	except Exception as e:
 		print(e, file=sys.stderr)
-		return json.dumps({'error':str(e)})
+		return str(e)
 	finally:
 		cursor.close() 
 		conn.close()
