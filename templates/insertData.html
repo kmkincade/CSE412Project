@@ -75,7 +75,7 @@ What is the species' common name? </label>
 <input id = "speciesPopulation" class = "form-control">
 </div>
 
-<input name="Insert new species &gt;" type="submit" value="Insert new species &gt;" class="btn btn-default">
+<input name="InsertSpecies" type="submit" value="Insert new species &gt;" class="btn btn-default">
 
 </form>
 <br/>
@@ -83,7 +83,7 @@ What is the species' common name? </label>
 <!--end insert new species-->
 
 <!--insert new habitat-->
-<form name='insertHabitat' action="/habitatAdded" method='POST'>
+<form name='insertHabitat' action="/insertResult" method='POST'>
 <h4 style = "color:#FFFFFF">Insert a new habitat:</h4>
 <div class = "form-group" style = "color:#FFF">
 <label for="habitatBiome">
@@ -98,10 +98,10 @@ What is the habitat's biome? </label>
 
 <div class = "form-group" style = "color:#FFF">
 <label for="habitatID">Give the habitat a unique ID:</label>
-<input id = "habitatID" class = "form-control">
+<input id = "habitatID" class = "form-control" name = "habitatID">
 </div>
 
-<input name="Insert new species &gt;" type="submit" value="Insert new habitat &gt;" class="btn btn-default">
+<input name="insertHabitat" type="submit" value="Insert new habitat &gt;" class="btn btn-default">
 
 </form>
 <br/>
