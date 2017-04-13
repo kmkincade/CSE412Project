@@ -45,15 +45,36 @@ def testing():
 		cursor.close() 
 		conn.close()
 
-#testing html to python interaction. Feel free to remove if this is causing issues.
+#html to python from the insert buttons
 
-@index.route('/habitatAdded', methods = ['POST'])
-def habitatAdded():
-    habitatBiome = request.form['habitatBiome']
-    habitatCountry = request.form['habitatCountry']
-    resultStuff = 'The habitat with biome ' + habitatBiome + ' and country ' + habitatCountry + ' has been sent to the database.'
-    return render_template('resultsTest.html', result_stuff=resultStuff)
-#end testing
+@index.route('/insertResult', methods = ['POST'])
+def insertResult():
+    #if the button to insert a habitat is pushed, do stuff
+    if 'insertHabitat' in request.form:
+        habitatBiome = request.form['habitatBiome']
+        habitatCountry = request.form['habitatCountry']
+        habitatID = request.form['habitatID']
+        resultStuff = 'The habitat with biome ' + habitatBiome + ' and country ' + habitatCountry + ' has been sent to the database.'
+        insertHabitatQuery = 'INSERT INTO habitat(Biome, Country, HabitatID) VALUES(%s, %s, %s)'
+		#send data to the database
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(insertHabitatQuery,(habitatBiome, habitatCountry, habitatCountry))
+        except Exception as e:
+            print(e, file=sys.stderr)
+            resultStuff = 'There was an error with executing your query'
+        finally:
+            cursor.close() 
+            conn.close()
+		    #end send data to the database
+            return render_template('resultsTest.html', result_stuff=resultStuff)
+	#if the button to insert a species is pushed, do stuff
+    elif 'insertSpecies' in request.form:
+        return render_template('resultsTest.html', result_stuff = 'You created a new species.')
+    else:
+        return render_template('resultsTest.html', result_stuff = 'There was an error')
+#end html to python
 
 
 if __name__ == '__main__':
