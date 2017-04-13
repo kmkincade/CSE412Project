@@ -1,3 +1,5 @@
+from __future__ import print_function # In python 2.7
+import sys
 from flask import Flask, render_template, request, redirect, url_for
 from flaskext.mysql import MySQL
 
@@ -23,6 +25,25 @@ def searching():
 @index.route('/insert')
 def inserting():
     return render_template ('insertData.html')
+
+@index.route('/debug')
+def testing():
+	try:
+		conn = mysql.connect()
+		cursor = conn.cursor()
+		cursor.execute("SELECT * from species")
+		data = cursor.fetchall()
+		if data is None:
+			return "No species found"
+		else:
+			print(data, file=sys.stderr)
+			return str(data)
+	except Exception as e:
+		print(e, file=sys.stderr)
+		return json.dumps({'error':str(e)})
+	finally:
+		cursor.close() 
+		conn.close()
 
 #testing html to python interaction. Feel free to remove if this is causing issues.
 
