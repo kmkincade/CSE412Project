@@ -38,33 +38,33 @@
 <!--ease of use navigation links-->
 
 <!--search by common name-->
-<form action = "/result">
+<form name = "SearchByCommonName" action = "/result" method = 'POST'>
 <div class = "form-group" style = "color:#FFF" id = "commonNameForm">
 <label for="commonName">
 Find an animal using its common name: </label>
-<input id = "commonName" class = "form-control">
+<input id = "commonName" name = "commonName" class = "form-control">
 </div>
 
 <div class = "checkbox" style = "color:#FFF">
-<label class = "checkbox_inline"><input type = "checkbox" id = "speciesInfo">Get species info</label>
-<label class = "checkbox_inline"><input type = "checkbox" id = "relatedReading">Get related reading</label>
-<label class = "checkbox_inline"><input type = "checkbox" id = "conservationInfo">Get conservation info</label>
-<label class = "checkbox_inline"><input type = "checkbox">Get habitat information</label>
-<label class = "checkbox_inline"><input type = "checkbox">Include habitat threats</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "speciesInfo" name = "speciesInfo">Get species info</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "relatedReading" name = "relatedReading">Get related reading</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "conservationInfo" name = "conservationInfo">Get conservation info</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "habitatInfo" name = "habitatInfo">Get habitat information</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "habitatThreats" name = "habitatThreats">Include habitat threats</label>
 </div>
 
-<input name="Search By Common Name &gt;" type="submit" value="Search by common name &gt;" class="btn btn-default">
+<input name="SearchByCommonName" type="submit" value="Search by common name &gt;" class="btn btn-default">
 </form>
 <br/>
 <br/>
 <!--end search by common name-->
 
 <!--search by species name-->
-<form action = "/result">
+<form name = 'searchBySpeciesName' action = "/result" method = 'GET'>
 <div class = "form-group"style = "color:#FFF">
 <label for="speciesName">
 Find an animal using its species name: </label>
-<input id = "speciesName" class = "form-control">
+<input id = "speciesName" name = "speciesName" class = "form-control">
 
 <div class = "checkbox" style = "color:#FFF">
 <label class = "checkbox_inline"><input type = "checkbox" id = "speciesInfo">Get species info</label>

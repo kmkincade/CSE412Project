@@ -1,6 +1,7 @@
 from __future__ import print_function # In python 2.7
 import sys
 from flask import Flask, render_template, request, redirect, url_for
+from flask_table import Table
 from flaskext.mysql import MySQL
 
 mysql = MySQL()
@@ -8,23 +9,117 @@ mysql = MySQL()
 index = Flask(__name__)
 
 # Uncomment and replace w/ remote DB for prod
-# index.config['MYSQL_DATABASE_USER'] = 'root'
-# index.config['MYSQL_DATABASE_PASSWORD'] = 'root'
-# index.config['MYSQL_DATABASE_DB'] = 'dbName'
-# index.config['MYSQL_DATABASE_HOST'] = 'localhost'
+index.config['MYSQL_DATABASE_USER'] = 'lmr6l4s7lv65y4vr'
+index.config['MYSQL_DATABASE_PASSWORD'] = 'axe19y4ogn4rt55b'
+index.config['MYSQL_DATABASE_DB'] = 'r88t2axx9fbpqxb9'
+index.config['MYSQL_DATABASE_HOST'] = 'y06qcehxdtkegbeb.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
 mysql.init_app(index)
 
 @index.route('/')
 def home_page():
     return render_template('searchOptions.html')
 
-@index.route('/result')
+@index.route('/result', methods = ['POST'])
 def searching():
-    return render_template ('results.html')
+    if 'SearchByCommonName' in request.form:
+        _search = request.form['commonName']
+        if request.form.get('speciesInfo'):
+            try:
+                conn = mysql.connect()
+                cursor = conn.cursor()
+                query = "SELECT * FROM species WHERE sName = '" + _search +"';"
+                cursor.execute(query)
+                data = cursor.fetchall()
+                if data is None:
+                    return "No species found"
+                else:
+
+                    return render_template('results.html', type = "Species",dataset = data)
+            except Exception as e:
+                print(e, file=sys.stderr)
+                return str(e)
+            finally:
+                cursor.close()
+                conn.close()
+        elif request.form.get('relatedReading'):
+            try:
+                conn = mysql.connect()
+                cursor = conn.cursor()
+                query = "SELECT * FROM species WHERE sName = '" + _search +"';"
+                cursor.execute(query)
+                data = cursor.fetchall()
+                if data is None:
+                    return "No species found"
+                else:
+
+                    return render_template('results.html', type = "Species",dataset = data)
+            except Exception as e:
+                print(e, file=sys.stderr)
+                return str(e)
+            finally:
+                cursor.close()
+                conn.close()
+        elif request.form.get('conservationInfo'):
+            try:
+                conn = mysql.connect()
+                cursor = conn.cursor()
+                query = "SELECT * FROM species WHERE sName = '" + _search +"';"
+                cursor.execute(query)
+                data = cursor.fetchall()
+                if data is None:
+                    return "No species found"
+                else:
+
+                    return render_template('results.html', type = "Species",dataset = data)
+            except Exception as e:
+                print(e, file=sys.stderr)
+                return str(e)
+            finally:
+                cursor.close()
+                conn.close()
+        elif request.form.get('habitatInfo'):
+            try:
+                conn = mysql.connect()
+                cursor = conn.cursor()
+                query = "SELECT * FROM species WHERE sName = '" + _search +"';"
+                cursor.execute(query)
+                data = cursor.fetchall()
+                if data is None:
+                    return "No species found"
+                else:
+
+                    return render_template('results.html', type = "Species",dataset = data)
+            except Exception as e:
+                print(e, file=sys.stderr)
+                return str(e)
+            finally:
+                cursor.close()
+                conn.close()
+        elif request.form.get('habitatThreats'):
+            try:
+                conn = mysql.connect()
+                cursor = conn.cursor()
+                query = "SELECT * FROM species WHERE sName = '" + _search +"';"
+                cursor.execute(query)
+                data = cursor.fetchall()
+                if data is None:
+                    return "No species found"
+                else:
+
+                    return render_template('results.html', type = "Species",dataset = data)
+            except Exception as e:
+                print(e, file=sys.stderr)
+                return str(e)
+            finally:
+                cursor.close()
+                conn.close()
+    else:
+        return render_template('results.html', dataset = request.form)
+
 
 @index.route('/insert')
 def inserting():
-    return render_template ('insertData.html')
+    return render_template('insertData.html')
 
 @index.route('/debug')
 def testing():

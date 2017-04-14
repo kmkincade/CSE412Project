@@ -5,6 +5,11 @@
     <style type="text/css">
    body { background: green !important; }
 </style>
+    <style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -16,6 +21,28 @@
 <div class="jumbotron text-center">
   <h1>Endangered Species Database</h1>
   <p>Interested about endangered species and how you can help? Learn more here!</p>
+</div>
+
+<div class = "form-group" style = "color:#FFF" id = "resultForm">
+    <center>
+    <h2>{{type}} Results</h2>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Taxon</th>
+        <th>Status</th>
+        <th>Population</th>
+    </tr>
+  {% for d in dataset%}
+  <tr>
+      <td>{{d[0]}}</td>
+      <td>{{d[1]}}</td>
+      <td>{{d[2]}}</td>
+      <td>{{d[3]}}</td>
+  </tr>
+  {% endfor %}
+</table>
+    </center>
 </div>
 </body>
 </html>
