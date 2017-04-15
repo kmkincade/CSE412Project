@@ -19,23 +19,21 @@
 <body>
 
 <div class="jumbotron text-center">
+
+  <!--ease of use navigation links-->
+    <nav class="navbar navbar-light" style="background-color: #FFF;">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                 <a class="navbar-brand" href="/">Search</a>
+                 <a class="navbar-brand" href="/insert">Insert<span class="sr-only">(current)</span></a>
+        </div>
+    </nav>
+<!--end ease of use navigation links-->
+
   <h1>Endangered Species Database</h1>
   <p>Interested about endangered species and how you can help? Learn more here!</p>
 </div>
 <div class = "searchClass"><br>
 <h3 style = "color:#FFF">Search the database below:</h3>
-
-<!--ease of use navigation links-->
-<!--
-<div class = "form-group" style = "color:#FFF">
-<a href = "#commonName" id = "commonNameJump"><input name="Jump to common name search" type="button" value="Jump to common name search" class="btn btn-default"></a>
-<a href = "#speciesName"><input name="Jump to species name search" type="button" value="Jump to species name search" class="btn btn-default"></a>
-<a href = "#habitats"><input name="Jump to habitat search" type="button" value="Jump to habitat search" class="btn btn-default"></a>
-</div>
-
-<br/>
-<br/>!-->
-<!--ease of use navigation links-->
 
 <!--search by common name-->
 <form name = "SearchByCommonName" action = "/result" method = 'POST'>
@@ -46,7 +44,7 @@ Find an animal using its common name: </label>
 </div>
 
 <div class = "checkbox" style = "color:#FFF">
-<label class = "checkbox_inline"><input type = "checkbox" id = "speciesInfo" name = "speciesInfo">Get species info</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "speciesInfo" name = "speciesInfo" checked>Get species info</label>
 <label class = "checkbox_inline"><input type = "checkbox" id = "relatedReading" name = "relatedReading">Get related reading</label>
 <label class = "checkbox_inline"><input type = "checkbox" id = "conservationInfo" name = "conservationInfo">Get conservation info</label>
 <label class = "checkbox_inline"><input type = "checkbox" id = "habitatInfo" name = "habitatInfo">Get habitat information</label>
@@ -67,7 +65,7 @@ Find an animal using its species name: </label>
 <input id = "speciesName" name = "speciesName" class = "form-control">
 
 <div class = "checkbox" style = "color:#FFF">
-<label class = "checkbox_inline"><input type = "checkbox" id = "speciesInfo">Get species info</label>
+<label class = "checkbox_inline"><input type = "checkbox" id = "speciesInfo" checked>Get species info</label>
 <label class = "checkbox_inline"><input type = "checkbox" id = "relatedReading">Get related reading</label>
 <label class = "checkbox_inline"><input type = "checkbox" id = "conservationInfo">Get conservation info</label>
 <label class = "checkbox_inline"><input type = "checkbox">Get habitat information</label>
