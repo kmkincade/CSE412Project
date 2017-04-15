@@ -1,7 +1,7 @@
 from __future__ import print_function # In python 2.7
 import sys
 from flask import Flask, render_template, request, redirect, url_for
-from flask_table import Table
+#from flask_table import Table
 from flaskext.mysql import MySQL
 
 mysql = MySQL()
@@ -145,17 +145,27 @@ def testing():
 @index.route('/insertResult', methods = ['POST'])
 def insertResult():
     #if the button to insert a habitat is pushed, do stuff
+    #print(request.form)
     if 'insertHabitat' in request.form:
-        habitatBiome = request.form['habitatBiome']
-        habitatCountry = request.form['habitatCountry']
-        habitatID = request.form['habitatID']
+        habitatBiome = str(request.form['habitatBiome'])
+        habitatCountry = str(request.form['habitatCountry'])
+        habitatID = str(request.form['habitatID'])
         resultStuff = 'The habitat with biome ' + habitatBiome + ' and country ' + habitatCountry + ' has been sent to the database.'
-        insertHabitatQuery = 'INSERT INTO habitat(Biome, Country, HabitatID) VALUES(%s, %s, %s)'
+
+        isSafe = checkSafety(resultStuff)
+        if isSafe == True:
+            insertHabitatQuery = """INSERT INTO habitat (Biome, Country, HabitatID) VALUES('%s', '%s', '%s')""" % ((habitatBiome, habitatCountry, habitatCountry))
+        else:
+            insertHabitatQuery = "";
+            resultStuff = "Invalid input!"
 		#send data to the database
         try:
             conn = mysql.connect()
             cursor = conn.cursor()
-            cursor.execute(insertHabitatQuery,(habitatBiome, habitatCountry, habitatCountry))
+            if insertHabitatQuery != "":
+                print(insertSpeciesQuery)
+                cursor.execute(insertHabitatQuery)
+                conn.commit()
         except Exception as e:
             print(e, file=sys.stderr)
             resultStuff = 'There was an error with executing your query'
@@ -164,12 +174,49 @@ def insertResult():
             conn.close()
 		    #end send data to the database
             return render_template('resultsTest.html', result_stuff=resultStuff)
-	#if the button to insert a species is pushed, do stuff
-    elif 'insertSpecies' in request.form:
-        return render_template('resultsTest.html', result_stuff = 'You created a new species.')
+    elif 'insertSpecies' in request.form: #if the button to insert a species is pushed, do stuff
+        speciesName = str(request.form['speciesName'])
+        speciesTaxon = str(request.form['speciesTaxon'])
+        speciesStatus = str(request.form['speciesStatus'])
+        speciesPopulation = str(request.form['speciesPopulation'])
+
+        resultStuff = 'You inserted a new species: ' + speciesName + ', ' + speciesTaxon + ', ' + speciesStatus + ', ' + speciesPopulation + '.'
+        isSafe = checkSafety(resultStuff)
+        if isSafe == True:
+            insertSpeciesQuery = """INSERT INTO species (sName, Taxon, Sstatus, Population) VALUES('%s', '%s', '%s', '%s')""" %(speciesName, speciesTaxon, speciesStatus, speciesPopulation)
+        else:
+            insertSpeciesQuery = "";
+            resultStuff = "Invalid input!"
+		#send data to the database
+        try:
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            if insertSpeciesQuery != "":
+                print(insertSpeciesQuery)
+                cursor.execute(insertSpeciesQuery)
+                conn.commit()
+        except Exception as e:
+            print(e, file=sys.stderr)
+            resultStuff = 'There was an error with executing your query'
+        finally:
+            cursor.close() 
+            conn.close()
+		    #end send data to the database
+            return render_template('resultsTest.html', result_stuff=resultStuff)
+        return render_template('resultsTest.html', result_stuff)
     else:
-        return render_template('resultsTest.html', result_stuff = 'There was an error')
+        return render_template('resultsTest.html', result_stuff = "There was an error. Most likely the form did not match.")
 #end html to python
+
+#sanitize input
+def checkSafety(form):
+    aString = str(form)
+    if "drop" in aString.lower() or ";" in aString or "alter table" in aString.lower():
+        return False;
+    else:
+        return True;
+		
+#end sanitize input
 
 
 if __name__ == '__main__':
