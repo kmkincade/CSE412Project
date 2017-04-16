@@ -80,36 +80,29 @@
       <br/>
       <!--end search by species name-->
 
-      <!--search by habitat name-->
-      <form action = "/result">
+      <!-- Find species below average population for their status -->
+      <form name='belowAveragePopulation' action = "/result" method = 'GET'>
         <div class = "form-group" style = "color:#FFF">
-          <label for="habitats">
-            Find endangered species by habitat: </label>
-            <select id = "habitats" class = "form-control">
-              <option value="Savanah">Savanah
+          <label for="belowAveragePopulation">
+            Find species with below average population for endangered status: </label>
+            <select id = "Status" class = "form-control" name = "status">
+              <option value="Critically Endangered">Critically Endangered
               </option>
-              <option value="Tropical Rainforest">
-                Tropical Rainforest
+              <option value="Endangered">
+                Endangered
               </option>
-              <option value="Forest">
-                Forest
+              <option value="Least Concern">
+                Least Concern
               </option>
-              <option value="Grasslands">Grasslands
+              <option value="Near Threatened">Near Threatened
               </option>
-              <option value="Ocean">Ocean
-              </option>
-              <option value="Tundra">Tundra
-              </option>
-              <option value="Everglades">Everglades
+              <option value="Vulnerable">Vulnerable
               </option>
             </select>
-            <div class = "checkbox" style = "color:#FFF">
-              <label class = "checkbox_inline"><input type = "checkbox" id = "invasiveInfo">Also return invasive species in that habitat</label>
-            </div>
           </div>
 
-          <input name="Search By Species Name &gt;" type="submit" value="Find endangered species in this habitat &gt;" class="btn btn-default">
-
+          <input name="belowAveragePopulation" 
+          type="submit" class="btn btn-default">
         </form>
         <br/>
         <br/>

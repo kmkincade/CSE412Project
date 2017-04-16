@@ -21,100 +21,78 @@ def home_page():
 
 @index.route('/result', methods = ['GET'])
 def searching():
-    if 'SearchByCommonName' in request.values:
-        _search = request.values['commonName']
-        if request.values.get('speciesInfo'):
-            try:
-                conn = mysql.connect()
-                cursor = conn.cursor()
+    print(request.values, file=sys.stderr)
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        if 'SearchByCommonName' in request.values:
+            _search = request.values['commonName']
+            if request.values.get('speciesInfo'):
                 query = "SELECT * FROM species WHERE sName = '" + _search +"';"
                 cursor.execute(query)
                 data = cursor.fetchall()
                 if data is None:
                     return "No species found"
                 else:
-
                     return render_template('results.html', type = "Species",dataset = data)
-            except Exception as e:
-                print(e, file=sys.stderr)
-                return str(e)
-            finally:
-                cursor.close()
-                conn.close()
-        elif request.values.get('relatedReading'):
-            try:
-                conn = mysql.connect()
-                cursor = conn.cursor()
+            elif request.values.get('relatedReading'):
                 query = "SELECT * FROM species WHERE sName = '" + _search +"';"
                 cursor.execute(query)
                 data = cursor.fetchall()
                 if data is None:
                     return "No species found"
                 else:
-
                     return render_template('results.html', type = "Species",dataset = data)
-            except Exception as e:
-                print(e, file=sys.stderr)
-                return str(e)
-            finally:
-                cursor.close()
-                conn.close()
-        elif request.values.get('conservationInfo'):
-            try:
-                conn = mysql.connect()
-                cursor = conn.cursor()
+            elif request.values.get('conservationInfo'):
                 query = "SELECT * FROM species WHERE sName = '" + _search +"';"
                 cursor.execute(query)
                 data = cursor.fetchall()
                 if data is None:
                     return "No species found"
                 else:
-
                     return render_template('results.html', type = "Species",dataset = data)
-            except Exception as e:
-                print(e, file=sys.stderr)
-                return str(e)
-            finally:
-                cursor.close()
-                conn.close()
-        elif request.values.get('habitatInfo'):
-            try:
-                conn = mysql.connect()
-                cursor = conn.cursor()
+            elif request.values.get('habitatInfo'):
                 query = "SELECT * FROM species WHERE sName = '" + _search +"';"
                 cursor.execute(query)
                 data = cursor.fetchall()
                 if data is None:
                     return "No species found"
                 else:
-
                     return render_template('results.html', type = "Species",dataset = data)
-            except Exception as e:
-                print(e, file=sys.stderr)
-                return str(e)
-            finally:
-                cursor.close()
-                conn.close()
-        elif request.values.get('habitatThreats'):
-            try:
-                conn = mysql.connect()
-                cursor = conn.cursor()
+            elif request.values.get('habitatThreats'):
                 query = "SELECT * FROM species WHERE sName = '" + _search +"';"
                 cursor.execute(query)
                 data = cursor.fetchall()
                 if data is None:
                     return "No species found"
                 else:
-
                     return render_template('results.html', type = "Species",dataset = data)
-            except Exception as e:
-                print(e, file=sys.stderr)
-                return str(e)
-            finally:
-                cursor.close()
-                conn.close()
-    else:
-        return render_template('results.html', dataset = request.values)
+        elif 'belowAveragePopulation' in request.values:
+            _status = request.values.get('status');
+            print(_status, file=sys.stderr)
+            if _status:
+                query = ("SELECT * "
+                "FROM species as s1 "
+                "WHERE s1.sstatus = \"" + _status + "\" AND "
+                "population < ( "
+                    "SELECT AVG(population) "
+                    "FROM species as s2 "
+                    "WHERE s1.sstatus = s2.sstatus);")
+                print(query, file=sys.stderr)
+                cursor.execute(query)
+                data = cursor.fetchall()
+                if data is None:
+                    return "No species found"
+                else:
+                    return render_template('results.html', type = "Species",dataset = data)
+        else:
+            return render_template('results.html', dataset = request.values)
+    except Exception as e:
+        print(e, file=sys.stderr)
+        return str(e)
+    finally:
+        cursor.close()
+        conn.close()
 
 
 @index.route('/insert')
