@@ -19,11 +19,11 @@ mysql.init_app(index)
 def home_page():
     return render_template('searchOptions.html')
 
-@index.route('/result', methods = ['POST'])
+@index.route('/result', methods = ['GET'])
 def searching():
-    if 'SearchByCommonName' in request.form:
-        _search = request.form['commonName']
-        if request.form.get('speciesInfo'):
+    if 'SearchByCommonName' in request.values:
+        _search = request.values['commonName']
+        if request.values.get('speciesInfo'):
             try:
                 conn = mysql.connect()
                 cursor = conn.cursor()
@@ -41,7 +41,7 @@ def searching():
             finally:
                 cursor.close()
                 conn.close()
-        elif request.form.get('relatedReading'):
+        elif request.values.get('relatedReading'):
             try:
                 conn = mysql.connect()
                 cursor = conn.cursor()
@@ -59,7 +59,7 @@ def searching():
             finally:
                 cursor.close()
                 conn.close()
-        elif request.form.get('conservationInfo'):
+        elif request.values.get('conservationInfo'):
             try:
                 conn = mysql.connect()
                 cursor = conn.cursor()
@@ -77,7 +77,7 @@ def searching():
             finally:
                 cursor.close()
                 conn.close()
-        elif request.form.get('habitatInfo'):
+        elif request.values.get('habitatInfo'):
             try:
                 conn = mysql.connect()
                 cursor = conn.cursor()
@@ -95,7 +95,7 @@ def searching():
             finally:
                 cursor.close()
                 conn.close()
-        elif request.form.get('habitatThreats'):
+        elif request.values.get('habitatThreats'):
             try:
                 conn = mysql.connect()
                 cursor = conn.cursor()
@@ -114,7 +114,7 @@ def searching():
                 cursor.close()
                 conn.close()
     else:
-        return render_template('results.html', dataset = request.form)
+        return render_template('results.html', dataset = request.values)
 
 
 @index.route('/insert')
