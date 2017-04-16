@@ -84,7 +84,24 @@ def searching():
                 if data is None:
                     return "No species found"
                 else:
-                    return render_template('results.html', type = "Species",dataset = data)
+                    return render_template('results.html', type = "Species", dataset = data)
+        elif 'conservationCount' in request.values:
+            _commonName = request.values.get('commonName');
+            if _commonName:
+                query = ("SELECT s.Taxon, s.sName, COUNT(c.ConservationID) as 'Conservation Count' "
+                "FROM species as s, helpedBy as hb, conservation as c "
+                "WHERE "
+                "s.sName = \'" + _commonName + "\' AND "
+                "s.Taxon = hb.Taxon AND "
+                "hb.ConservationID = c.ConservationID "
+                "GROUP BY s.taxon; ")
+                print(query, file=sys.stderr)
+                cursor.execute(query)
+                data = cursor.fetchall()
+                if data is None:
+                    return "No species found"
+                else:
+                    return render_template('results.html', type = "Species", dataset = data)
         else:
             return render_template('results.html', dataset = request.values)
     except Exception as e:
