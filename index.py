@@ -68,7 +68,7 @@ def searching():
                 threatData = cursor.fetchall()
             data = [{'columnNames': ["Common Name", "Taxon", "Status", "Population"], 'type': "Species", 'data' : speciesData }, {'columnNames':["URL", "Type", "Taxon"] , 'type': "Related Reading", 'data' : readingData},{'columnNames':["Taxon", "Conservation"] , 'type': "Conservation", 'data' : conservationData},{'columnNames':["Biome", "Country"] , 'type': "Habitat", 'data': habitatData},{'columnNames':["Threat Name"] , 'type': "Habitat Threats", 'data' : threatData} ]
             return render_template('results.html', theType = type, dataset=data)
-        elif 'Search By Species Name' in request.values:
+        elif 'SearchBySpeciesName' in request.values:
             type = 0
             _search = request.values['speciesName']
             if request.values.get('speciesInfo'):

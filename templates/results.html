@@ -53,6 +53,11 @@ table, th, td {
       <td>{{t[3]}}</td>
     </tr>
       {% endfor %}
+    {% if d.data.__len__() == 0 %}
+    <tr>
+        <td>No results available</td>
+    </tr>
+    {% endif %}
 </table>
         {% endif %}
         {% endfor %}
