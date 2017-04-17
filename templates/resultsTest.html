@@ -4,6 +4,8 @@
   <title>Endangered Species Database</title>
     <style type="text/css">
    body { background: green !important; }
+	table, th, td { border: 1px solid black;}
+	th, td {padding: 5px !important;}
 </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,6 +31,30 @@
 </div>
 <div class = "text-center" style = "color:#FFFFFF">
 <h4>{{result_stuff}}</h4>
+</div>
+<div class = "form-group" style = "color:#FFF" id = "resultForm">
+    <center>
+        {% for d in dataset %}
+        {% if d.data != 0 %}
+    <h4>{{d.type}} inserted and then retrieved:</h4>
+<table>
+    <tr>
+        {% for t in d.columnNames %}
+        <th>{{t}}</th>
+        {% endfor %}
+    </tr>
+      {% for t in d.data%}
+    <tr>
+      <td>{{t[0]}}</td>
+      <td>{{t[1]}}</td>
+      <td>{{t[2]}}</td>
+      <td>{{t[3]}}</td>
+    </tr>
+      {% endfor %}
+</table>
+        {% endif %}
+        {% endfor %}
+    </center>
 </div>
 </body>
 </html>
