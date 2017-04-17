@@ -35,23 +35,26 @@ table, th, td {
 
 <div class = "form-group" style = "color:#FFF" id = "resultForm">
     <center>
-    <h2>{{type}} Results</h2>
+        {% for d in dataset %}
+        {% if d.data != 0 %}
+    <h2>{{d.type}} Results</h2>
 <table>
     <tr>
-        <th>Name</th>
-        <th>Taxon</th>
-        <th>Status</th>
-        <th>Population</th>
+        {% for t in d.columnNames %}
+        <th>{{t}}</th>
+        {% endfor %}
     </tr>
-  {% for d in dataset%}
-  <tr>
-      <td>{{d[0]}}</td>
-      <td>{{d[1]}}</td>
-      <td>{{d[2]}}</td>
-      <td>{{d[3]}}</td>
-  </tr>
-  {% endfor %}
+      {% for t in d.data%}
+    <tr>
+      <td>{{t[0]}}</td>
+      <td>{{t[1]}}</td>
+      <td>{{t[2]}}</td>
+      <td>{{t[3]}}</td>
+    </tr>
+      {% endfor %}
 </table>
+        {% endif %}
+        {% endfor %}
     </center>
 </div>
 </body>

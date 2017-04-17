@@ -57,19 +57,28 @@
     <br/>
     <!--end search by common name-->
 
-    <!-- Find count of conservation efforts for species. -->
-    <form name='conservationCount' action = "/result" method = 'GET'>
-      <div class = "form-group" style = "color:#FFF">
-        <label for="commonName">
-          Find count of conservation efforts for species given common name: </label>
-          <input id = "commonName" name = "commonName" class = "form-control">
+    <!--search by species name-->
+    <form name = 'searchBySpeciesName' action = "/result" method = 'GET'>
+      <div class = "form-group"style = "color:#FFF">
+        <label for="speciesName">
+          Find an animal using its species name: </label>
+          <input id = "speciesName" name = "speciesName" class = "form-control">
+
+          <div class = "checkbox" style = "color:#FFF">
+            <label class = "checkbox_inline"><input type = "checkbox" id = "speciesInfo" checked>Get species info</label>
+            <label class = "checkbox_inline"><input type = "checkbox" id = "relatedReading">Get related reading</label>
+            <label class = "checkbox_inline"><input type = "checkbox" id = "conservationInfo">Get conservation info</label>
+            <label class = "checkbox_inline"><input type = "checkbox">Get habitat information</label>
+            <label class = "checkbox_inline"><input type = "checkbox">Include habitat threats</label>
+          </div>
+
         </div>
-        <input name="conservationCount" 
-        type="submit" class="btn btn-default">
+        <input name="Search By Species Name &gt;" type="submit" value="Search by species name &gt;" class="btn btn-default">
+
       </form>
       <br/>
       <br/>
-      <!--Find count of conservation efforts for species.-->
+      <!--end search by species name-->
 
       <!-- Find species below average population for their status -->
       <form name='belowAveragePopulation' action = "/result" method = 'GET'>
@@ -97,8 +106,39 @@
         </form>
         <br/>
         <br/>
-        <!--end Find species below average population for their status-->
-      </div>
+        <!--end search by habitat name-->
 
-    </body>
-    </html>
+        <!--get threats-->
+        <form action = "/result">
+          <div class = "form-group" style = "color:#FFF">
+            <label for="threatAssociations">
+              Find threats associated with a(n): </label>
+              <select id = "threatAssociations" class = "form-control">
+                <option value="habitat" selected>habitat
+                </option>
+                <option value="species">species
+                </option>
+                <option value="invasive species">
+                  invasive species
+                </option>
+                <option value="conservation group">
+                  conservation group
+                </option>
+              </select>
+            </div>
+            <div class = "form-group" style = "color:#FFF" id = "criterionDiv">
+              <label for="criterion">
+                Enter the habitat, species, invasive species, or conservation group you are looking for: </label>
+                <input id = "criterion" class = "form-control">
+              </div>
+
+              <input name="Search By Species Name &gt;" type="submit" value="Find threats associated with this search term &gt;" class="btn btn-default">
+
+            </form>
+            <br/>
+            <br/>
+            <!--end get threats-->
+          </div>
+
+        </body>
+        </html>

@@ -25,50 +25,40 @@ def searching():
     try:
         conn = mysql.connect()
         cursor = conn.cursor()
+        speciesData = 0
+        readingData = 0
+        conservationData = 0
+        habitatData = 0
+        threatData = 0
+
         if 'SearchByCommonName' in request.values:
             _search = request.values['commonName']
             if request.values.get('speciesInfo'):
                 query = "SELECT * FROM species WHERE sName = '" + _search +"';"
                 cursor.execute(query)
-                data = cursor.fetchall()
-                if data is None:
-                    return "No species found"
-                else:
-                    return render_template('results.html', type = "Species",dataset = data)
-            elif request.values.get('relatedReading'):
-                query = "SELECT * FROM species WHERE sName = '" + _search +"';"
+                speciesData = cursor.fetchall()
+            if request.values.get('relatedReading'):
+                query = "SELECT R.* FROM species AS S, relatedReading AS R WHERE S.sName = '" + _search + "' AND R.Taxon = S.Taxon"
                 cursor.execute(query)
-                data = cursor.fetchall()
-                if data is None:
-                    return "No species found"
-                else:
-                    return render_template('results.html', type = "Species",dataset = data)
-            elif request.values.get('conservationInfo'):
-                query = "SELECT * FROM species WHERE sName = '" + _search +"';"
+                readingData = cursor.fetchall()
+            if request.values.get('conservationInfo'):
+                query = "SELECT H.Taxon, C.cName FROM species AS S, helpedBy AS H, conservation AS C WHERE S.sName = '" + _search + "' AND S.Taxon = H.Taxon AND C.ConservationID = H.ConservationID"
                 cursor.execute(query)
-                data = cursor.fetchall()
-                if data is None:
-                    return "No species found"
-                else:
-                    return render_template('results.html', type = "Species",dataset = data)
-            elif request.values.get('habitatInfo'):
-                query = "SELECT * FROM species WHERE sName = '" + _search +"';"
+                conservationData = cursor.fetchall()
+            if request.values.get('habitatInfo'):
+                query = "SELECT H.Biome, H.Country FROM species AS S, livesIn AS L, habitat AS H WHERE S.sName = '" + _search + "' AND S.Taxon = L.Taxon AND L.HabitatID = H.HabitatID"
                 cursor.execute(query)
-                data = cursor.fetchall()
-                if data is None:
-                    return "No species found"
-                else:
-                    return render_template('results.html', type = "Species",dataset = data)
-            elif request.values.get('habitatThreats'):
-                query = "SELECT * FROM species WHERE sName = '" + _search +"';"
+                habitatData = cursor.fetchall()
+            if request.values.get('habitatThreats'):
+                query = "SELECT DISTINCT T.tName FROM destroys AS D, threats AS T, habitat AS H, livesIn AS L, species AS S WHERE"
+                query += " S.sName = '" + _search + "' AND S.Taxon = L.Taxon AND L.HabitatID = H.HabitatID AND D.HabitatID = H.HabitatID "
+                query += "AND D.ThreatID = T.ThreatID"
                 cursor.execute(query)
-                data = cursor.fetchall()
-                if data is None:
-                    return "No species found"
-                else:
-                    return render_template('results.html', type = "Species",dataset = data)
+                threatData = cursor.fetchall()
+            data = [{'columnNames': ["Common Name", "Taxon", "Status", "Population"], 'type': "Species", 'data' : speciesData }, {'columnNames':["URL", "Type", "Taxon"] , 'type': "Related Reading", 'data' : readingData},{'columnNames':["Taxon", "Conservation"] , 'type': "Conservation", 'data' : conservationData},{'columnNames':["Biome", "Country"] , 'type': "Habitat", 'data': habitatData},{'columnNames':["Threat Name"] , 'type': "Habitat Threats", 'data' : threatData} ]
+            return render_template('results.html', dataset=data)
         elif 'belowAveragePopulation' in request.values:
-            _status = request.values.get('status');
+            _status = request.values.get('status')
             print(_status, file=sys.stderr)
             if _status:
                 query = ("SELECT * "
@@ -84,24 +74,7 @@ def searching():
                 if data is None:
                     return "No species found"
                 else:
-                    return render_template('results.html', type = "Species", dataset = data)
-        elif 'conservationCount' in request.values:
-            _commonName = request.values.get('commonName');
-            if _commonName:
-                query = ("SELECT s.Taxon, s.sName, COUNT(c.ConservationID) as 'Conservation Count' "
-                "FROM species as s, helpedBy as hb, conservation as c "
-                "WHERE "
-                "s.sName = \'" + _commonName + "\' AND "
-                "s.Taxon = hb.Taxon AND "
-                "hb.ConservationID = c.ConservationID "
-                "GROUP BY s.taxon; ")
-                print(query, file=sys.stderr)
-                cursor.execute(query)
-                data = cursor.fetchall()
-                if data is None:
-                    return "No species found"
-                else:
-                    return render_template('results.html', type = "Species", dataset = data)
+                    return render_template('results.html', type = "Species",dataset = data)
         else:
             return render_template('results.html', dataset = request.values)
     except Exception as e:
