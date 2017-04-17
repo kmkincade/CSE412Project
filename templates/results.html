@@ -34,6 +34,7 @@ table, th, td {
 </div>
 
 <div class = "form-group" style = "color:#FFF" id = "resultForm">
+    {% if theType == 0 %}
     <center>
         {% for d in dataset %}
         {% if d.data != 0 %}
@@ -56,6 +57,46 @@ table, th, td {
         {% endif %}
         {% endfor %}
     </center>
+    {% endif %}
+    {% if theType == 1 %}
+    <center>
+        <table>
+            <tr>
+                <th>Common Name</th>
+                <th>Taxon</th>
+                <th>Status</th>
+                <th>Population</th>
+            </tr>
+                {% for a in dataset %}
+            <tr>
+                <td>{{a[0]}}</td>
+                <td>{{a[1]}}</td>
+                <td>{{a[2]}}</td>
+                <td>{{a[3]}}</td>
+            </tr>
+                {% endfor %}
+        </table>
+    </center>
+    {% endif %}
+
+    {% if theType == 2 %}
+    <center>
+        <table>
+            <tr>
+                <th>Biome</th>
+                <th>Country</th>
+                <th>Count</th>
+            </tr>
+                {% for a in dataset %}
+            <tr>
+                <td>{{a[0]}}</td>
+                <td>{{a[1]}}</td>
+                <td>{{a[2]}}</td>
+            </tr>
+                {% endfor %}
+        </table>
+    </center>
+    {% endif %}
 </div>
 </body>
 </html>
