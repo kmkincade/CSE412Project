@@ -15,6 +15,16 @@ index.config['MYSQL_DATABASE_DB'] = 'r88t2axx9fbpqxb9'
 index.config['MYSQL_DATABASE_HOST'] = 'y06qcehxdtkegbeb.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
 mysql.init_app(index)
 
+def getSymbolForFilter(filter):
+    return {
+        'greaterThan': ">",
+        'lessThan': "<",
+        'greaterThanOrEqual': ">=",
+        'lessThanOrEqual': "<=",
+        'equalTo': "="
+    }[filter]
+
+
 @index.route('/')
 def home_page():
     return render_template('searchOptions.html')
@@ -105,6 +115,26 @@ def searching():
                     return "No species found"
                 else:
                     return render_template('results.html', type = "Species",dataset = data)
+        elif 'speciesCount' in request.values:
+            _filter = getSymbolForFilter(request.values.get('filter'))
+            _speciesNum = request.values.get('speciesNum')
+            print(_filter, file=sys.stderr)
+            if _filter and _speciesNum:
+                query = ("SELECT h.Biome, h.Country, COUNT(s.Taxon) as 'Species Count' "
+                "FROM habitat as h, species as s, livesIn as li "
+                "WHERE "
+                "s.Taxon = li.Taxon AND "
+                "h.HabitatID = li.HabitatID "
+                "GROUP BY h.HabitatID "
+                "HAVING COUNT(s.Taxon) "+ _filter +" " + _speciesNum + " ;"
+                )
+                cursor.execute(query)
+                data = cursor.fetchall()
+                print(data, file=sys.stderr)
+                if data is None:
+                    return "No biomes found"
+                else:
+                    return render_template('results.html', type = "Biome",dataset = data)
         else:
             return render_template('results.html', dataset = request.values)
     except Exception as e:
