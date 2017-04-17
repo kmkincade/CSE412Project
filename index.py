@@ -115,14 +115,20 @@ def insertResult():
     #if the button to insert a habitat is pushed, do stuff
     #print(request.form)
     if 'insertHabitat' in request.form:
+        speciesData = 0
+        speciesData = 0
+        readingData = 0
+        conservationData = 0
+        habitatData = 0
+        threatData = 0
         habitatBiome = str(request.form['habitatBiome'])
         habitatCountry = str(request.form['habitatCountry'])
         habitatID = str(request.form['habitatID'])
-        resultStuff = 'The habitat with biome ' + habitatBiome + ' and country ' + habitatCountry + ' has been sent to the database.'
+        resultStuff = 'The habitat with biome ' + habitatBiome + ' and country ' + habitatCountry + ' has been inserted into the database.'
 
         isSafe = checkSafety(resultStuff)
         if isSafe == True:
-            insertHabitatQuery = """INSERT INTO habitat (Biome, Country, HabitatID) VALUES('%s', '%s', '%s')""" % ((habitatBiome, habitatCountry, habitatCountry))
+            insertHabitatQuery = """INSERT INTO habitat (Biome, Country, HabitatID) VALUES('%s', '%s', '%s')""" % ((habitatBiome, habitatCountry, habitatID))
         else:
             insertHabitatQuery = "";
             resultStuff = "Invalid input!"
@@ -131,18 +137,42 @@ def insertResult():
             conn = mysql.connect()
             cursor = conn.cursor()
             if insertHabitatQuery != "":
-                print(insertSpeciesQuery)
+                print(insertHabitatQuery)
                 cursor.execute(insertHabitatQuery)
                 conn.commit()
+
+#now request the inserted species element to confirm it was added
+                query = "SELECT h.Biome, h.Country, h.HabitatID FROM habitat h WHERE h.Biome = '" + habitatBiome + "'" + "AND h.Country = '" + habitatCountry + "' AND h.HabitatID = '" + habitatID + "'"
+                cursor.execute(query)
+                habitatData = cursor.fetchall()
+                if habitatData is None:
+                    resultStuff = 'There was an error retrieving the data after insert.'
+#end request of inserted element
+
         except Exception as e:
             print(e, file=sys.stderr)
-            resultStuff = 'There was an error with executing your query'
+            if "Duplicate" in str(e):
+                resultStuff = 'There already exists an entry for that primary key. Insert failed.'
+            else:
+                resultStuff = 'There was an error with executing your query'
         finally:
             cursor.close() 
             conn.close()
 		    #end send data to the database
-            return render_template('resultsTest.html', result_stuff=resultStuff)
-    elif 'insertSpecies' in request.form: #if the button to insert a species is pushed, do stuff
+			
+            data = [{'columnNames': ["Common Name", "Taxon", "Status", "Population"], 'type': "Species", 'data' : speciesData }, {'columnNames':["URL", "Type", "Taxon"] , 'type': "Related Reading", 'data' : readingData},{'columnNames':["Taxon", "Conservation"] , 'type': "Conservation", 'data' : conservationData},{'columnNames':["Biome", "Country"] , 'type': "Habitat", 'data': habitatData},{'columnNames':["Threat Name"] , 'type': "Habitat Threats", 'data' : threatData} ]
+
+            return render_template('resultsTest.html', result_stuff=resultStuff, type = "Habitat", dataset = data)
+
+#insert a species
+    elif 'insertSpecies' in request.form:
+#if the button to insert a species is pushed, do stuff
+        speciesData = 0
+        speciesData = 0
+        readingData = 0
+        conservationData = 0
+        habitatData = 0
+        threatData = 0
         speciesName = str(request.form['speciesName'])
         speciesTaxon = str(request.form['speciesTaxon'])
         speciesStatus = str(request.form['speciesStatus'])
@@ -163,23 +193,37 @@ def insertResult():
                 print(insertSpeciesQuery)
                 cursor.execute(insertSpeciesQuery)
                 conn.commit()
+				
+#now request the inserted species element to confirm it was added
+                query = "SELECT s.sName, s.Taxon, s.Sstatus, s.Population FROM species s WHERE s.Taxon = '" + speciesTaxon + "'" + "AND s.sName = '" + speciesName + "' AND s.Sstatus = '" + speciesStatus + "' AND s.Population = '" + speciesPopulation + "'"
+                cursor.execute(query)
+                speciesData = cursor.fetchall()
+                if speciesData is None:
+                    resultStuff = 'There was an error retrieving the data after insert.'
+#end request of inserted element
+
         except Exception as e:
             print(e, file=sys.stderr)
-            resultStuff = 'There was an error with executing your query'
+            if "Duplicate" in str(e):
+                resultStuff = 'There already exists an entry for that primary key. Insert failed.'
+            else:
+                resultStuff = 'There was an error with executing your query'
         finally:
             cursor.close() 
             conn.close()
 		    #end send data to the database
-            return render_template('resultsTest.html', result_stuff=resultStuff)
-        return render_template('resultsTest.html', result_stuff)
+			
+            data = [{'columnNames': ["Common Name", "Taxon", "Status", "Population"], 'type': "Species", 'data' : speciesData }, {'columnNames':["URL", "Type", "Taxon"] , 'type': "Related Reading", 'data' : readingData},{'columnNames':["Taxon", "Conservation"] , 'type': "Conservation", 'data' : conservationData},{'columnNames':["Biome", "Country"] , 'type': "Habitat", 'data': habitatData},{'columnNames':["Threat Name"] , 'type': "Habitat Threats", 'data' : threatData} ]
+
+            return render_template('resultsTest.html', result_stuff=resultStuff, type = "Species", dataset = data)
     else:
         return render_template('resultsTest.html', result_stuff = "There was an error. Most likely the form did not match.")
 #end html to python
 
-#sanitize input
+#basic sanitize input
 def checkSafety(form):
     aString = str(form)
-    if "drop" in aString.lower() or ";" in aString or "alter table" in aString.lower():
+    if "drop" in aString.upper().lower() or ";" in aString or "alter table" in aString.lower():
         return False;
     else:
         return True;
