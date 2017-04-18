@@ -149,6 +149,10 @@ def searching():
 def inserting():
     return render_template('insertData.html')
 
+@index.route('/update')
+def updating():
+    return render_template('modifyData.html')
+
 @index.route('/debug')
 def testing():
 	try:
@@ -271,6 +275,54 @@ def insertResult():
     else:
         return render_template('resultsTest.html', result_stuff = "There was an error. Most likely the form did not match.")
 #end html to python
+
+#update
+@index.route('/updateResult', methods = ['POST'])
+def updateResult():
+    speciesData = 0
+    speciesData = 0
+    readingData = 0
+    conservationData = 0
+    habitatData = 0
+    threatData = 0
+    speciesTaxon = str(request.form['speciesTaxon'])
+    newStatus = str(request.form['newStatus'])
+    resultStuff = 'The taxon ' + speciesTaxon + ' was modified to have the new status ' + newStatus + '.';
+
+    isSafe = checkSafety(resultStuff)
+    if isSafe == True:
+            updateSpeciesQuery = """UPDATE species set Sstatus = '%s' WHERE Taxon = '%s'""" % ((newStatus, speciesTaxon))
+    else:
+        updateSpeciesQuery = "";
+        resultStuff = "Invalid input!"
+#send data to the database
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        if updateSpeciesQuery != "":
+            print(updateSpeciesQuery)
+            cursor.execute(updateSpeciesQuery)
+            conn.commit()
+
+                # now request the changed element to confirm it was added
+            query = "SELECT s.sName, s.Taxon, s.Sstatus, s.Population FROM species s WHERE s.Taxon = '" + speciesTaxon + "'"
+            cursor.execute(query)
+            print(speciesData)
+            speciesData = cursor.fetchall()
+
+            if newStatus not in str(speciesData):
+                resultStuff = 'There was an error. Are you sure your taxon is correct?'
+               # end request of inserted element
+    except Exception as e:
+        print(e, file=sys.stderr)
+        resultStuff = 'There was an error with executing your query. Update failed.'
+    finally:
+        cursor.close() 
+        conn.close()
+		    #end send data to the database
+    data = [{'columnNames': ["Common Name", "Taxon", "Status", "Population"], 'type': "Species", 'data': speciesData},{'columnNames': ["URL", "Type", "Taxon"], 'type': "Related Reading", 'data': readingData},{'columnNames': ["Taxon", "Conservation"], 'type': "Conservation", 'data': conservationData},{'columnNames': ["Biome", "Country"], 'type': "Habitat", 'data': habitatData},{'columnNames': ["Threat Name"], 'type': "Habitat Threats", 'data': threatData}]
+    return render_template('resultsTest.html', result_stuff=resultStuff, type="Species", dataset=data)
+#end update
 
 #sanitize input
 def checkSafety(form):
