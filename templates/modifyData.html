@@ -20,7 +20,7 @@
 
 <div class="jumbotron text-center">
 
- <!--ease of use navigation links-->
+  <!--ease of use navigation links-->
     <nav class="navbar navbar-light" style="background-color: #FFF;">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                  <a class="navbar-brand" href="/">Search</a>
@@ -36,16 +36,11 @@
 </div>
 
 <div class = "searchClass"><br>
-<h3 style = "color:#FFF">Insert new entries into the database:</h3>
+<h3 style = "color:#FFF">Modify entries in the database:</h3>
 
-<!--insert new species-->
-<form name='insertSpeciesForm' action="/insertResult" method='POST'>
-<h4 style = "color:#FFFFFF">Insert a new endangered species:</h4>
-<div class = "form-group" style = "color:#FFF">
-<label for="speciesName">
-What is the species' common name? </label>
-<input id = "speciesName" class = "form-control" name = "speciesName">
-</div>
+<!--change species-->
+<form name='updateSpeciesForm' action="/updateResult" method='POST'>
+<h4 style = "color:#FFFFFF">Modify a species' status:</h4>
 
 <div class = "form-group" style = "color:#FFF">
 <label for="speciesTaxon">What is the species' taxon?</label>
@@ -53,8 +48,8 @@ What is the species' common name? </label>
 </div>
 
 <div class = "form-group" style = "color:#FFF">
-<label for="speciesStatus">What is the species' endangered status?</label>
-<select id = "speciesStatus" class = "form-control" name = "speciesStatus">
+<label for="newStatus">What is the new endangered status?</label>
+<select id = "newStatus" class = "form-control" name = "newStatus">
     <option value="Least Concern">Least Concern
     </option>
         <option value="Near Threatened">
@@ -70,44 +65,13 @@ What is the species' common name? </label>
 </select>
 </div>
 
-
-<div class = "form-group" style = "color:#FFF">
-<label for="speciesPopulation">What is the species' population number?</label>
-<input id = "speciesPopulation" class = "form-control" name = "speciesPopulation">
-</div>
-
-<input name="insertSpecies" type="submit" value="Insert new species &gt;" class="btn btn-default">
+<input name="modifySpecies" type="submit" value="Modify species &gt;" class="btn btn-default">
 
 </form>
 <br/>
 <br/>
-<!--end insert new species-->
+<!--end species-->
 
-<!--insert new habitat-->
-<form name='insertHabitatForm' action="/insertResult" method='POST'>
-<h4 style = "color:#FFFFFF">Insert a new habitat:</h4>
-<div class = "form-group" style = "color:#FFF">
-<label for="habitatBiome">
-What is the habitat's biome? </label>
-<input id = "habitatBiome" class = "form-control" name = "habitatBiome">
-</div>
-
-<div class = "form-group" style = "color:#FFF">
-<label for="habitatCountry">What is the habitat's country?</label>
-<input id = "habitatCountry" class = "form-control"name = "habitatCountry">
-</div>
-
-<div class = "form-group" style = "color:#FFF">
-<label for="habitatID">Give the habitat a unique ID:</label>
-<input id = "habitatID" class = "form-control" name = "habitatID">
-</div>
-
-<input name="insertHabitat" type="submit" value="Insert new habitat &gt;" class="btn btn-default">
-
-</form>
-<br/>
-<br/>
-<!--end insert new habitat-->
 
 </div>
 

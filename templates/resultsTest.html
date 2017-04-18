@@ -17,11 +17,12 @@
 
 <div class="jumbotron text-center">
 
-  <!--ease of use navigation links-->
+ <!--ease of use navigation links-->
     <nav class="navbar navbar-light" style="background-color: #FFF;">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                  <a class="navbar-brand" href="/">Search</a>
-                 <a class="navbar-brand" href="/insert">Insert<span class="sr-only">(current)</span></a>
+                 <a class="navbar-brand" href="/insert">Insert<span class="sr-only"></span></a>
+                                 <a class="navbar-brand" href="/update">Update<span class="sr-only"></span></a>
         </div>
     </nav>
 <!--end ease of use navigation links-->
@@ -36,7 +37,7 @@
     <center>
         {% for d in dataset %}
         {% if d.data != 0 %}
-    <h4>{{d.type}} inserted and then retrieved:</h4>
+    <h4>{{d.type}} inserted or changed and then retrieved:</h4>
 <table>
     <tr>
         {% for t in d.columnNames %}
